@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:interview_task/core/app/app_routes.dart';
 import 'package:interview_task/feature/auth/view/login_page.dart';
 
 void main() {
@@ -10,6 +11,8 @@ class ShoppingCart extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      initialRoute: AppRoutes.login,
+      onGenerateRoute: AppRoutes.generateRoute,
       home: LoginPage(),
     );
   }
