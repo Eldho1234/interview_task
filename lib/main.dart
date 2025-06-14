@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:interview_task/core/app/app_routes.dart';
 import 'package:interview_task/feature/auth/view/login_page.dart';
 import 'package:interview_task/feature/auth/view_model/auth_view_model.dart';
+import 'package:interview_task/feature/product/view_model/product_view_model.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -14,6 +15,7 @@ class ShoppingCart extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthViewModel()),
+        ChangeNotifierProvider(create: (_) => ProductViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

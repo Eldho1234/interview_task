@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:interview_task/core/app/app_constants.dart';
 import 'package:interview_task/core/app/app_routes.dart';
 import 'package:interview_task/feature/auth/view_model/auth_view_model.dart';
 import 'package:provider/provider.dart';
@@ -24,11 +25,15 @@ class _LoginPageState extends State<LoginPage> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Colors.white,
         content: Text(
-          success ? 'Login Successful' : 'Inavlid credentials',
+          success ? 'Login Successful' : 'Invalid credentials',
           style: const TextStyle(color: Colors.black),
         )));
     if (success) {
-      Navigator.pushReplacementNamed(context, '/home');
+      final isAdmin = auth.user?.email == AppConstants.adminEmail;
+      Navigator.pushReplacementNamed(
+        context,
+        isAdmin ? '/adminDash' : '/home',
+      );
     }
   }
 
