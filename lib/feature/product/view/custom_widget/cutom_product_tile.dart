@@ -18,8 +18,9 @@ class ProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isOutOfStock = prodQty.isEmpty;
     return GestureDetector(
-      onTap: onTap,
+      onTap: isOutOfStock ? null : onTap,
       child: Card(
         elevation: 3,
         margin: const EdgeInsets.all(8),
@@ -50,6 +51,26 @@ class ProductTile extends StatelessWidget {
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
+            if (isOutOfStock)
+              Positioned(
+                top: 0,
+                left: 0,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        bottomRight: Radius.circular(12)),
+                  ),
+                  child: const Text(
+                    'Out Of Stock',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
