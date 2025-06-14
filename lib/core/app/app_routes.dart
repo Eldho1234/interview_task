@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:interview_task/feature/admin_dashboard/view/admin_view.dart';
 import 'package:interview_task/feature/auth/view/login_page.dart';
 import 'package:interview_task/feature/auth/view/signup_page.dart';
+import 'package:interview_task/feature/product/view/product_details.dart';
 import 'package:interview_task/feature/product/view/product_view.dart';
 
 class AppRoutes {
@@ -18,6 +20,10 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => SignupPage());
       case home:
         return MaterialPageRoute(builder: (_) => ProductView());
+      case prodtDetails:
+        return MaterialPageRoute(builder: (_) => ProductDetails());
+      case adminDashBoard:
+        return MaterialPageRoute(builder: (_) => AdminDashBoard());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
