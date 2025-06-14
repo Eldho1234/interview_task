@@ -57,129 +57,133 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         child: SafeArea(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-              left: 20,
-              right: 20,
-              top: 40,
-            ),
-            child: Card(
-              elevation: 8,
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      'Login',
-                      style: TextStyle(
-                        fontSize: 40,
-                      ),
-                    ),
-                    const Divider(
-                      color: Colors.black,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: TextFormField(
-                        controller: emailController,
-                        decoration:
-                            const InputDecoration(label: Text("E-mail")),
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return 'Email is required';
-                          }
-                          final emailRegExp =
-                              RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$');
-                          if (!emailRegExp.hasMatch(value)) {
-                            return 'Enter a valid email';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: TextFormField(
-                        controller: passwordController,
-                        decoration: InputDecoration(
-                          label: const Text("Password"),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              showPass
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final isWideScreen = constraints.maxWidth > 600;
+              final cardWidth = isWideScreen ? 500.0 : double.infinity;
+              return Center(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isWideScreen ? 40 : 20,
+                    vertical: 40,
+                  ),
+                  child: Card(
+                    elevation: 8,
+                    child: Container(
+                      width: cardWidth,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 30),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text(
+                              'Login',
+                              style: TextStyle(fontSize: 40),
                             ),
-                            onPressed: () {
-                              setState(() {
-                                showPass = !showPass;
-                              });
-                            },
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return 'Password is required';
-                          }
-                          if (value.length < 6) {
-                            return 'Password must be at least 6 characters';
-                          }
-                          return null;
-                        },
-                        obscureText: showPass,
-                      ),
-                    ),
-                    SizedBox(
-                        height: 50,
-                        width: 300,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 232, 223, 202),
-                              side: const BorderSide(
-                                color: Colors.black,
+                            const Divider(color: Colors.black),
+                            const SizedBox(height: 20),
+                            TextFormField(
+                              controller: emailController,
+                              decoration: const InputDecoration(
+                                labelText: "E-mail",
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return 'Email is required';
+                                }
+                                final emailRegExp =
+                                    RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$');
+                                if (!emailRegExp.hasMatch(value)) {
+                                  return 'Enter a valid email';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            TextFormField(
+                              controller: passwordController,
+                              decoration: InputDecoration(
+                                labelText: "Password",
+                                border: const OutlineInputBorder(),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    showPass
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      showPass = !showPass;
+                                    });
+                                  },
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return 'Password is required';
+                                }
+                                if (value.length < 6) {
+                                  return 'Password must be at least 6 characters';
+                                }
+                                return null;
+                              },
+                              obscureText: showPass,
+                            ),
+                            const SizedBox(height: 30),
+                            SizedBox(
+                              width: double.infinity,
+                              height: 50,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 232, 223, 202),
+                                  side: const BorderSide(color: Colors.black),
+                                ),
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    _login();
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        backgroundColor: Colors.white,
+                                        content: Text(
+                                          "Please fill the above fields",
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: const Text("Login"),
                               ),
                             ),
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                _login();
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      backgroundColor: Colors.white,
-                                      content: Text(
-                                        "Please fill the above fields",
-                                        style: TextStyle(color: Colors.black),
-                                      )),
-                                );
-                              }
-                            },
-                            child: const Text("Login"))),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('Not a member ? '),
-                          GestureDetector(
-                            onTap: () => Navigator.pushReplacementNamed(
-                                context, AppRoutes.signUp),
-                            child: const Text(
-                              'Sign Up',
-                              style: TextStyle(color: Colors.blue),
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text('Not a member? '),
+                                GestureDetector(
+                                  onTap: () => Navigator.pushReplacementNamed(
+                                      context, AppRoutes.signUp),
+                                  child: const Text(
+                                    'Sign Up',
+                                    style: TextStyle(color: Colors.blue),
+                                  ),
+                                ),
+                              ],
                             ),
-                          )
-                        ],
+                            const SizedBox(height: 10),
+                          ],
+                        ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
         ),
       ),

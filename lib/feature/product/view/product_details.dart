@@ -20,7 +20,7 @@ class ProductDetails extends StatelessWidget {
         title: product.title,
         imageUrl: product.thumbnail,
         description: product.description,
-        price: product.price,
+        price: product.price.toString(),
       ),
     );
   }

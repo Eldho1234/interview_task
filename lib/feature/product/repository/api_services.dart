@@ -19,7 +19,7 @@ class ApiService {
     }
   }
 
-  Future<Product> fetchProductById(int id) async {
+  Future<Product> fetchProductById(int? id) async {
     try {
       var response = await http.get(Uri.parse('${AppConstants.baseUrl}/$id'));
       if (response.statusCode == 200) {
@@ -45,7 +45,6 @@ class ApiService {
       "category": categoryValues.reverse[product.category],
       "thumbnail": product.thumbnail,
       "images": product.images,
-      "availabilityStatus": product.availabilityStatus.name,
     };
 
     final response = await http.post(
@@ -66,30 +65,36 @@ class ApiService {
       "title": product.title,
       "description": product.description,
       "price": product.price,
-      "discountPercentage": product.discountPercentage,
-      "rating": product.rating,
-      "stock": product.stock,
-      "brand": product.brand,
-      "category": categoryValues.reverse[product.category],
+      "discountPercentage": product.discountPercentage ?? 0.0,
+      "rating": product.rating ?? 0.0,
+      "stock": product.stock ?? 0,
+      "brand": product.brand ?? '',
+      "category": categoryValues.reverse[product.category] ?? 'others',
       "thumbnail": product.thumbnail,
-      "images": product.images,
-      "availabilityStatus": product.availabilityStatus.name,
+      "availabilityStatus":
+          availabilityStatusValues.reverse[product.availabilityStatus],
     };
 
+    final url = '${AppConstants.baseUrl}/${product.id}';
+    print('PUT to $url with body: $body');
+
     final response = await http.put(
-      Uri.parse('${AppConstants.baseUrl}/${product.id}'),
+      Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(body),
     );
 
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
     if (response.statusCode == 200) {
       return Product.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to update product');
+      throw Exception('Failed to update product: ${response.body}');
     }
   }
 
-  Future<bool> deleteProduct(int id) async {
+  Future<bool> deleteProduct(int? id) async {
     final response =
         await http.delete(Uri.parse('${AppConstants.baseUrl}/$id'));
 
