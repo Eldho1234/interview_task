@@ -4,15 +4,14 @@ class CustomProductDetailsPage extends StatelessWidget {
   final String title;
   final String imageUrl;
   final String description;
-  final double price;
+  final String price;
 
-  const CustomProductDetailsPage({
-    super.key,
-    required this.title,
-    required this.imageUrl,
-    required this.description,
-    required this.price,
-  });
+  const CustomProductDetailsPage(
+      {super.key,
+      required this.title,
+      required this.imageUrl,
+      required this.description,
+      required this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +52,7 @@ class CustomProductDetailsPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    "\$${price.toStringAsFixed(2)}",
+                    "\$$price}",
                     style: const TextStyle(
                       fontSize: 20,
                       color: Colors.green,
